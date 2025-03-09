@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,11 +18,19 @@ public class Inventory {
     private String tipo;
     private float peso;
 
-    public Inventory(UUID id_inventory, String name, String tipo, float peso) {
+    @ManyToOne
+    @JoinColumn(name = "character_id")
+    private Character character;
+
+    public Inventory() {
+    }
+
+    public Inventory(UUID id_inventory, String name, String tipo, float peso, Character character) {
         this.id_inventory = id_inventory;
         this.name = name;
         this.tipo = tipo;
         this.peso = peso;
+        this.character = character;
     }
 
     public UUID getId_inventory() {
@@ -53,5 +63,13 @@ public class Inventory {
 
     public void setPeso(float peso) {
         this.peso = peso;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 }

@@ -19,6 +19,9 @@ public class Stats {
     private int wisdom;
     private int charisma;
 
+    public Stats() {
+    }
+    
     public Stats(UUID id_stats, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
         this.id_stats = id_stats;
         this.strength = strength;

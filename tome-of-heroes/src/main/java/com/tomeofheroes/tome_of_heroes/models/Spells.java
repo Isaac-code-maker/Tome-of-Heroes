@@ -1,9 +1,11 @@
 package com.tomeofheroes.tome_of_heroes.models;
 
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +18,12 @@ public class Spells {
     private String description;
     private String level;
     private String school;
+
+    @ManyToMany(mappedBy = "spells")
+    private Set<Character> characters;
+
+    public Spells() {
+    }
 
     public Spells(UUID id_spells, String name, String description, String level, String school) {
         this.id_spells = id_spells;
@@ -63,5 +71,13 @@ public class Spells {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public Set<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Set<Character> characters) {
+        this.characters = characters;
     }
 }

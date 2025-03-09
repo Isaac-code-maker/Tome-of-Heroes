@@ -1,9 +1,11 @@
 package com.tomeofheroes.tome_of_heroes.models;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +17,12 @@ public class Race {
     private String name;
     private String bonus;
     private String description;
+
+    @OneToMany(mappedBy = "race")
+    private List<Character> characters;
+
+    public Race() {
+    }
 
     public Race(UUID id_raca, String name, String bonus, String description) {
         this.id_raca = id_raca;
@@ -53,5 +61,13 @@ public class Race {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 }
