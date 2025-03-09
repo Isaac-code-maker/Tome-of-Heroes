@@ -12,24 +12,36 @@ import jakarta.persistence.Table;
 @Table(name = "classes")
 public class Classe {
 
+    // Identificador único para cada classe
     @Id
     private UUID id_classe;
+    
+    // Nome da classe
     private String name;
+    
+    // Descrição da classe
     private String description;
+    
+    // Dado de vida da classe
     private String dado_de_vida;
 
+    // Relacionamento um-para-muitos com a classe Character
     @OneToMany(mappedBy = "classe")
     private List<Character> characters;
 
+    // Construtor padrão
     public Classe() {
     }
 
+    // Construtor com parâmetros
     public Classe(UUID id_classe, String name, String description, String dado_de_vida) {
         this.id_classe = id_classe;
         this.name = name;
         this.description = description;
         this.dado_de_vida = dado_de_vida;
     }
+
+    // Getters e setters para os campos
 
     public UUID getId_classe() {
         return id_classe;

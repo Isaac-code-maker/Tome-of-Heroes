@@ -10,18 +10,33 @@ import jakarta.persistence.Table;
 @Table(name = "stats")
 public class Stats {
 
+    // Identificador único para cada conjunto de estatísticas
     @Id
     private UUID id_stats;
+    
+    // Força do personagem
     private int strength;
+    
+    // Destreza do personagem
     private int dexterity;
+    
+    // Constituição do personagem
     private int constitution;
+    
+    // Inteligência do personagem
     private int intelligence;
+    
+    // Sabedoria do personagem
     private int wisdom;
+    
+    // Carisma do personagem
     private int charisma;
 
+    // Construtor padrão
     public Stats() {
     }
     
+    // Construtor com parâmetros
     public Stats(UUID id_stats, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
         this.id_stats = id_stats;
         this.strength = strength;
@@ -31,6 +46,8 @@ public class Stats {
         this.wisdom = wisdom;
         this.charisma = charisma;
     }
+
+    // Getters e setters para os campos
 
     public UUID getId_stats() {
         return id_stats;

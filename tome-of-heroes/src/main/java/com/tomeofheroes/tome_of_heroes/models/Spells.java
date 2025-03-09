@@ -12,19 +12,31 @@ import jakarta.persistence.Table;
 @Table(name = "spells")
 public class Spells {
 
+    // Identificador único para cada feitiço
     @Id
     private UUID id_spells;
+    
+    // Nome do feitiço
     private String name;
+    
+    // Descrição do feitiço
     private String description;
+    
+    // Nível do feitiço
     private String level;
+    
+    // Escola de magia do feitiço
     private String school;
 
+    // Relacionamento muitos-para-muitos com a classe Character
     @ManyToMany(mappedBy = "spells")
     private Set<Character> characters;
 
+    // Construtor padrão
     public Spells() {
     }
 
+    // Construtor com parâmetros
     public Spells(UUID id_spells, String name, String description, String level, String school) {
         this.id_spells = id_spells;
         this.name = name;
@@ -32,6 +44,8 @@ public class Spells {
         this.level = level;
         this.school = school;
     }
+
+    // Getters e setters para os campos
 
     public UUID getId_spells() {
         return id_spells;

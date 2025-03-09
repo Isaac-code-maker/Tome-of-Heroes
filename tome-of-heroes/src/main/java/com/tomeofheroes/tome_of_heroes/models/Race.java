@@ -12,24 +12,36 @@ import jakarta.persistence.Table;
 @Table(name = "race")
 public class Race {
 
+    // Identificador único para cada raça
     @Id
     private UUID id_raca;
+    
+    // Nome da raça
     private String name;
+    
+    // Bônus da raça
     private String bonus;
+    
+    // Descrição da raça
     private String description;
 
+    // Relacionamento um-para-muitos com a classe Character
     @OneToMany(mappedBy = "race")
     private List<Character> characters;
 
+    // Construtor padrão
     public Race() {
     }
 
+    // Construtor com parâmetros
     public Race(UUID id_raca, String name, String bonus, String description) {
         this.id_raca = id_raca;
         this.name = name;
         this.bonus = bonus;
         this.description = description;
     }
+
+    // Getters e setters para os campos
 
     public UUID getId_raca() {
         return id_raca;
