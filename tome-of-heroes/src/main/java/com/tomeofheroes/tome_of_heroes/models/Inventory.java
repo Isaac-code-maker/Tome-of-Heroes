@@ -3,6 +3,8 @@ package com.tomeofheroes.tome_of_heroes.models;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,7 +16,8 @@ public class Inventory {
 
     // Identificador único para cada item de inventário
     @Id
-    private UUID id_inventory;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id_item;
     
     // Nome do item de inventário
     private String name;
@@ -44,8 +47,7 @@ public class Inventory {
     }
 
     // Construtor com parâmetros
-    public Inventory(UUID id_inventory, String name, String tipo, float peso, int gold, int silver, int copper, Character character) {
-        this.id_inventory = id_inventory;
+    public Inventory(String name, String tipo, float peso, int gold, int silver, int copper, Character character) {
         this.name = name;
         this.tipo = tipo;
         this.peso = peso;
@@ -57,12 +59,12 @@ public class Inventory {
 
     // Getters e setters para os campos
 
-    public UUID getId_inventory() {
-        return id_inventory;
+    public UUID getId_item() {
+        return id_item;
     }
 
-    public void setId_inventory(UUID id_inventory) {
-        this.id_inventory = id_inventory;
+    public void setId_item(UUID id_item) {
+        this.id_item = id_item;
     }
 
     public String getName() {

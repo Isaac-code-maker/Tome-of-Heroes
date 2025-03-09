@@ -13,22 +13,27 @@ public class ClasseService {
 
     private final ClasseRepository classeRepository;
 
+    // Construtor que injeta o repositório ClasseRepository
     public ClasseService(ClasseRepository classeRepository) {
         this.classeRepository = classeRepository;
     }
 
+    // Método para obter todas as classes
     public List<Classe> getClasses() {
         return classeRepository.findAll();
     }
 
+    // Método para obter uma classe pelo ID
     public Classe getClasse(UUID id) {
         return classeRepository.findById(id).orElse(null);
     }
 
+    // Método para criar uma nova classe
     public Classe createClasse(Classe classe) {
         return classeRepository.save(classe);
     }
 
+    // Método para atualizar uma classe existente
     public Classe updateClasse(UUID id, Classe classe) {
         Classe classeToUpdate = classeRepository.findById(id).orElse(null);
         if (classeToUpdate == null) {
@@ -40,6 +45,7 @@ public class ClasseService {
         return classeRepository.save(classeToUpdate);
     }
 
+    // Método para deletar uma classe pelo ID
     public void deleteClasse(UUID id) {
         classeRepository.deleteById(id);
     }

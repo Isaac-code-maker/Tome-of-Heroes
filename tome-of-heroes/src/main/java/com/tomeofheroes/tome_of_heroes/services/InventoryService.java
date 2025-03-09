@@ -13,28 +13,29 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
+    // Construtor que injeta o repositório InventoryRepository
     public InventoryService(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 
+    // Método para obter todos os itens de inventário
     public List<Inventory> getInventory() {
         return inventoryRepository.findAll();
     }
 
+    // Método para obter um item de inventário pelo ID
     public Inventory getInventory(UUID id) {
         return inventoryRepository.findById(id).orElse(null);
     }
 
+    // Método para criar um novo item de inventário
     public Inventory createInventory(Inventory inventory) {
         return inventoryRepository.save(inventory);
     }
 
+    // Método para atualizar um item de inventário existente
     public Inventory updateInventory(UUID id, Inventory inventory) {
-        List<Inventory> inventoryList = inventoryRepository.findById_inventory(id);
-        if (inventoryList.isEmpty()) {
-            return null;
-        }
-        Inventory inventoryToUpdate = inventoryList.get(0);
+        Inventory inventoryToUpdate = inventoryRepository.findById(id).orElse(null);
         if (inventoryToUpdate == null) {
             return null;
         }
@@ -44,4 +45,8 @@ public class InventoryService {
         return inventoryRepository.save(inventoryToUpdate);
     }
 
+    // Método para deletar um item de inventário pelo ID
+    public void deleteInventory(UUID id_item) {
+        inventoryRepository.deleteById(id_item);
+    }
 }

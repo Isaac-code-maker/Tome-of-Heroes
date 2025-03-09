@@ -61,6 +61,9 @@ public class Character {
     @JoinColumn(name = "id_stats")
     private Stats stats;
 
+    // Classe do personagem
+    private String characterClass;
+
     // Construtor padrão
     public Character() {
     }
@@ -145,5 +148,13 @@ public class Character {
 
     public void setStats(Stats stats) {
         this.stats = stats;
+    }
+
+    public String getCharacterClass() {
+        return characterClass;
+    }
+
+    public void setCharacterClass(String characterClass) {
+        this.characterClass = characterClass;
     }
 }
