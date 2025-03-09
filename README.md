@@ -26,7 +26,7 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    ```bash
    git clone https://github.com/SEU-USUARIO/tome-of-heroes.git
    cd tome-of-heroes
-   ```
+
 
 2. Configure o banco de dados PostgreSQL:
    - Crie um banco de dados chamado `rpgmanager`.
@@ -37,13 +37,13 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    spring.datasource.username=seu_usuario
    spring.datasource.password=sua_senha
    spring.jpa.hibernate.ddl-auto=update
-   ```
+
 
 3. Compile e rode a aplicação:
 
    ```bash
    mvn spring-boot:run
-   ```
+
 
 4. O projeto estará rodando em [http://localhost:8080](http://localhost:8080).
 
