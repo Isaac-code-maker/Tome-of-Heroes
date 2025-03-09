@@ -3,26 +3,28 @@ package com.tomeofheroes.tome_of_heroes.models;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "classes")
 public class Classe {
 
-    private UUID id;
+    @Id
+    private UUID id_classe;
     private String name;
     private String description;
     private String dado_de_vida;
 
-    public Classe(UUID id, String name, String description, String dado_de_vida) {
-        this.id = id;
+    public Classe(UUID id_classe, String name, String description, String dado_de_vida) {
+        this.id_classe = id_classe;
         this.name = name;
         this.description = description;
         this.dado_de_vida = dado_de_vida;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getId_classe() {
+        return id_classe;
     }
 
     public String getName() {
@@ -37,8 +39,8 @@ public class Classe {
         return dado_de_vida;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId_classe(UUID id_classe) {
+        this.id_classe = id_classe;
     }
 
     public void setName(String name) {

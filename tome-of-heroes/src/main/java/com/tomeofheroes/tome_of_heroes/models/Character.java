@@ -3,12 +3,19 @@ package com.tomeofheroes.tome_of_heroes.models;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "characters")
 public class Character {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
     private int level;
@@ -52,6 +59,10 @@ public class Character {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "id_classe")
+    private Classe classe;
 
     
 
