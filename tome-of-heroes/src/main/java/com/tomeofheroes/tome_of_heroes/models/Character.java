@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "characters")
 public class Character {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
