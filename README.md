@@ -1,4 +1,7 @@
-```markdown
+
+
+---
+
 # 📖 **Tome of Heroes**
 
 **Tome of Heroes** é uma aplicação para o **gerenciamento de fichas de personagens de RPG**. O sistema permite aos jogadores e mestres de jogo criar, editar, listar e excluir personagens, armazenando informações essenciais como **atributos**, **raça**, **classe**, **magias** e **inventário**.
@@ -26,24 +29,24 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    ```bash
    git clone https://github.com/SEU-USUARIO/tome-of-heroes.git
    cd tome-of-heroes
-
+   ```
 
 2. Configure o banco de dados PostgreSQL:
    - Crie um banco de dados chamado `rpgmanager`.
    - Altere as configurações de acesso no arquivo `src/main/resources/application.properties`:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/tome-of-heroes
+   spring.datasource.url=jdbc:postgresql://localhost:5432/rpgmanager
    spring.datasource.username=seu_usuario
    spring.datasource.password=sua_senha
    spring.jpa.hibernate.ddl-auto=update
-
+   ```
 
 3. Compile e rode a aplicação:
 
    ```bash
    mvn spring-boot:run
-
+   ```
 
 4. O projeto estará rodando em [http://localhost:8080](http://localhost:8080).
 
@@ -63,5 +66,6 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 
 ## 👨‍💻 **Desenvolvedor**
 
-- **Isaac Aires** - [LinkedIn](https://www.linkedin.com/in/isaac-aires-4601a728b/)
-```
+- **Isaac Aires** - [LinkedIn](https://www.linkedin.com/in/isaacaires/)
+
+---
