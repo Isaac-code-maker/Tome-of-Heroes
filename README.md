@@ -66,6 +66,6 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 
 ## 👨‍💻 **Desenvolvedor**
 
-- **Isaac Aires** - [LinkedIn](https://www.linkedin.com/in/isaacaires/)
+- **Isaac Aires** - [LinkedIn](https://www.linkedin.com/in/isaac-aires-4601a728b/)
 
 ---
