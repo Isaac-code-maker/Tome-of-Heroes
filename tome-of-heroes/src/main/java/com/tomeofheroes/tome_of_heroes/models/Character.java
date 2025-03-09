@@ -2,7 +2,6 @@ package com.tomeofheroes.tome_of_heroes.models;
 
 import java.util.Set;
 import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +31,11 @@ public class Character {
     
     // Experiência do personagem
     private int experience;
+
+    // Relacionamento muitos-para-um com a classe User
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Relacionamento muitos-para-um com a classe Classe
     @ManyToOne
@@ -108,6 +112,14 @@ public class Character {
 
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Classe getClasse() {

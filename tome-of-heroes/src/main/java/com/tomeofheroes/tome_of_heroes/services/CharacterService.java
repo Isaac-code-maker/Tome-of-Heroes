@@ -5,10 +5,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.tomeofheroes.tome_of_heroes.repository.CharacterRepository;
 import com.tomeofheroes.tome_of_heroes.models.Character;
 
+@Service
 public class CharacterService {
 
     private final CharacterRepository characterRepository;

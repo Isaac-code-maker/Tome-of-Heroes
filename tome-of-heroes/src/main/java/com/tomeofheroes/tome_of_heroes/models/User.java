@@ -5,15 +5,15 @@ import java.util.UUID;
 
 import com.tomeofheroes.tome_of_heroes.Enum.Role;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -31,13 +31,16 @@ public class User {
     private String password;
 
     // Relacionamento muitos-para-muitos com a classe Role
-    @ManyToMany
+    @ElementCollection(targetClass = Role.class)
     @JoinTable(
         name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
+        joinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Role> roles;
+
+    // Relacionamento um-para-muitos com a classe Character
+    @OneToMany(mappedBy = "user")
+    private Set<Character> characters;
 
     // Construtor padrão
     public User() {
@@ -82,5 +85,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Set<Character> characters) {
+        this.characters = characters;
     }
 }
