@@ -27,7 +27,7 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/SEU-USUARIO/tome-of-heroes.git
+   git clone https://github.com/Isaac-code-maker/Tome-of-Heroes
    cd tome-of-heroes
    ```
 
@@ -36,10 +36,16 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    - Altere as configurações de acesso no arquivo `src/main/resources/application.properties`:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/rpgmanager
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-   spring.jpa.hibernate.ddl-auto=update
+   spring.datasource.url=jdbc:postgresql://localhost:5432/tome-of-heroes
+   spring.datasource.username=postgres
+   spring.datasource.password=root
+   spring.datasource.driver-class-name=org.postgresql.Driver
+
+   spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+   spring.jpa.hibernate.ddl-auto=create
+   spring.jpa.show-sql=true
+   spring.jpa.properties.hibernate.format_sql=true
+   spring.jpa.properties.hibernate.ejb.entitymanager_factory_name=com.tomeofheroes.tome_of_heroes.models
    ```
 
 3. Compile e rode a aplicação:
