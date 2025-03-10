@@ -27,7 +27,7 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/SEU-USUARIO/tome-of-heroes.git
+   git clone https://github.com/Isaac-code-maker/Tome-of-Heroes
    cd tome-of-heroes
    ```
 
