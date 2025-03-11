@@ -1,73 +1,55 @@
 package com.tomeofheroes.tome_of_heroes.controllers;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
-
 import com.tomeofheroes.tome_of_heroes.models.Character;
 import com.tomeofheroes.tome_of_heroes.services.CharacterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/characters")
 public class CharacterController {
 
-    private final CharacterService characterService;
+    @Autowired
+    private CharacterService characterService;
 
-    // Construtor que injeta o serviço CharacterService
-    public CharacterController(CharacterService characterService) {
-        this.characterService = characterService;
+    @GetMapping
+    public ResponseEntity<List<Character>> getCharacters() {
+        List<Character> characters = characterService.getCharacters();
+        return ResponseEntity.ok(characters);
     }
 
-    // Método para obter todos os personagens
-    @GetMapping("/characters")
-    public List<Character> getALLcharacters() {
-        return characterService.findAll();
-    }
-
-    // Método para obter um personagem pelo ID
-    @GetMapping("/characters/{id}")
-    public ResponseEntity<Character> getCharacterbyId(@PathVariable UUID id) {
-        ResponseEntity<Character> responseEntity = characterService.findById(id);
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            return ResponseEntity.ok(responseEntity.getBody());
-        } else {
+    @GetMapping("/{id}")
+    public ResponseEntity<Character> getCharacter(@PathVariable UUID id) {
+        Character character = characterService.getCharacter(id);
+        if (character == null) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(character);
     }
 
-    // Método para criar um novo personagem
-    @PostMapping("/createCharacter")
-    public Character createCharacter(@RequestBody Character character) {
-        return characterService.save(character);
+    @PostMapping("/create")
+    public ResponseEntity<Character> createCharacter(@RequestBody Character character) {
+        Character createdCharacter = characterService.createCharacter(character);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacter);
     }
 
-    // Método para atualizar um personagem existente
-    @PutMapping("/characters/{id}")
-    public ResponseEntity<Character> updateCharacter(@PathVariable UUID id, @RequestBody Character characterDetails) {
-        ResponseEntity<Character> responseEntity = characterService.findById(id);
-        Optional<Character> characterOptional = Optional.ofNullable(responseEntity.getBody());
-        return characterOptional.map(character -> {
-            character.setName(characterDetails.getName());
-            character.setRace(characterDetails.getRace());
-            character.setCharacterClass(characterDetails.getCharacterClass());
-            character.setLevel(characterDetails.getLevel());
-            Character updatedCharacter = characterService.save(character);
-            return ResponseEntity.ok(updatedCharacter);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Método para deletar um personagem pelo ID
-    @DeleteMapping("/characters/{id}")
-    public ResponseEntity<Void> deleteCharacter(@PathVariable UUID id) {
-        if (characterService.findById(id).getBody() != null) {
-            characterService.delete(id);
-            return ResponseEntity.noContent().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<Character> updateCharacter(@PathVariable UUID id, @RequestBody Character character) {
+        Character updatedCharacter = characterService.updateCharacter(id, character);
+        if (updatedCharacter == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updatedCharacter);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCharacter(@PathVariable UUID id) {
+        characterService.deleteCharacter(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -18,40 +18,29 @@ import jakarta.persistence.Table;
 @Table(name = "characters")
 public class Character {
     
-    // Identificador único para cada personagem, gerado automaticamente
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     
-    // Nome do personagem
     private String name;
-    
-    // Nível do personagem
     private int level;
-    
-    // Experiência do personagem
     private int experience;
 
-    // Relacionamento muitos-para-um com a classe User
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Relacionamento muitos-para-um com a classe Classe
     @ManyToOne
     @JoinColumn(name = "id_classe")
     private Classe classe;
 
-    // Relacionamento um-para-muitos com a classe Inventory
     @OneToMany(mappedBy = "character")
     private Set<Inventory> inventory;
 
-    // Relacionamento muitos-para-um com a classe Race
     @ManyToOne
     @JoinColumn(name = "id_raca")
     private Race race;
 
-    // Relacionamento muitos-para-muitos com a classe Spells
     @ManyToMany
     @JoinTable(
         name = "personagem_magia",
@@ -60,19 +49,15 @@ public class Character {
     )
     private Set<Spells> spells;
 
-    // Relacionamento um-para-um com a classe Stats
     @OneToOne
     @JoinColumn(name = "id_stats")
     private Stats stats;
 
-    // Classe do personagem
     private String characterClass;
 
-    // Construtor padrão
     public Character() {
     }
 
-    // Construtor com parâmetros
     public Character(UUID id, String name, int level, int experience) {
         this.id = id;
         this.name = name;

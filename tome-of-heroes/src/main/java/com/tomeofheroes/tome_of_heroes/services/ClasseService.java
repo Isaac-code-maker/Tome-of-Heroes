@@ -1,22 +1,18 @@
 package com.tomeofheroes.tome_of_heroes.services;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-
 import com.tomeofheroes.tome_of_heroes.models.Classe;
 import com.tomeofheroes.tome_of_heroes.repository.ClasseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClasseService {
 
-    private final ClasseRepository classeRepository;
-
-    // Construtor que injeta o repositório ClasseRepository
-    public ClasseService(ClasseRepository classeRepository) {
-        this.classeRepository = classeRepository;
-    }
+    @Autowired
+    private ClasseRepository classeRepository;
 
     // Método para obter todas as classes
     public List<Classe> getClasses() {
@@ -31,6 +27,11 @@ public class ClasseService {
     // Método para criar uma nova classe
     public Classe createClasse(Classe classe) {
         return classeRepository.save(classe);
+    }
+
+    // Método para criar várias classes de uma vez
+    public List<Classe> createClasses(List<Classe> classes) {
+        return classeRepository.saveAll(classes);
     }
 
     // Método para atualizar uma classe existente

@@ -1,29 +1,26 @@
 package com.tomeofheroes.tome_of_heroes.services;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-
 import com.tomeofheroes.tome_of_heroes.models.Race;
 import com.tomeofheroes.tome_of_heroes.repository.RaceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RaceService {
 
-    private final RaceRepository raceRepository;
-
-    public RaceService(RaceRepository raceRepository) {
-        this.raceRepository = raceRepository;
-    }
+    @Autowired
+    private RaceRepository raceRepository;
 
     // Método para obter todas as raças
-    public List<Race> getAllRaces() {
+    public List<Race> getRaces() {
         return raceRepository.findAll();
     }
 
     // Método para obter uma raça pelo ID
-    public Race getRaceById(UUID id) {
+    public Race getRace(UUID id) {
         return raceRepository.findById(id).orElse(null);
     }
 
@@ -32,15 +29,20 @@ public class RaceService {
         return raceRepository.save(race);
     }
 
+    // Método para criar várias raças de uma vez
+    public List<Race> createRaces(List<Race> races) {
+        return raceRepository.saveAll(races);
+    }
+
     // Método para atualizar uma raça existente
-    public Race updateRace(UUID id, Race raceDetails) {
+    public Race updateRace(UUID id, Race race) {
         Race raceToUpdate = raceRepository.findById(id).orElse(null);
         if (raceToUpdate == null) {
             return null;
         }
-        raceToUpdate.setName(raceDetails.getName());
-        raceToUpdate.setBonus(raceDetails.getBonus());
-        raceToUpdate.setDescription(raceDetails.getDescription());
+        raceToUpdate.setName(race.getName());
+        raceToUpdate.setDescription(race.getDescription());
+        raceToUpdate.setBonus(race.getBonus());
         return raceRepository.save(raceToUpdate);
     }
 

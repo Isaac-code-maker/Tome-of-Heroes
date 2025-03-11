@@ -3,6 +3,8 @@ package com.tomeofheroes.tome_of_heroes.models;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,6 +14,7 @@ public class Stats {
 
     // Identificador único para cada conjunto de estatísticas
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_stats;
     
     // Força do personagem

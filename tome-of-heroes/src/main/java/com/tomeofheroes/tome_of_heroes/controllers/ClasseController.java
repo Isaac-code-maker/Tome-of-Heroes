@@ -41,6 +41,13 @@ public class ClasseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClasse);
     }
 
+    // Endpoint para criar várias classes de uma vez
+    @PostMapping("/bulk")
+    public ResponseEntity<List<Classe>> createClasses(@RequestBody List<Classe> classes) {
+        List<Classe> createdClasses = classeService.createClasses(classes);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdClasses);
+    }
+
     // Endpoint para atualizar uma classe existente
     @PutMapping("/{id}")
     public ResponseEntity<Classe> updateClasse(@PathVariable UUID id, @RequestBody Classe classe) {

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -14,6 +16,7 @@ public class Race {
 
     // Identificador único para cada raça
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_raca;
     
     // Nome da raça

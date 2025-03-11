@@ -19,15 +19,15 @@ public class RaceController {
 
     // Endpoint para obter todas as raças
     @GetMapping
-    public ResponseEntity<List<Race>> getAllRaces() {
-        List<Race> races = raceService.getAllRaces();
+    public ResponseEntity<List<Race>> getRaces() {
+        List<Race> races = raceService.getRaces();
         return ResponseEntity.ok(races);
     }
 
     // Endpoint para obter uma raça pelo ID
     @GetMapping("/{id}")
-    public ResponseEntity<Race> getRaceById(@PathVariable UUID id) {
-        Race race = raceService.getRaceById(id);
+    public ResponseEntity<Race> getRace(@PathVariable UUID id) {
+        Race race = raceService.getRace(id);
         if (race == null) {
             return ResponseEntity.notFound().build();
         }
@@ -35,16 +35,23 @@ public class RaceController {
     }
 
     // Endpoint para criar uma nova raça
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Race> createRace(@RequestBody Race race) {
         Race createdRace = raceService.createRace(race);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRace);
     }
 
+    // Endpoint para criar várias raças de uma vez
+    @PostMapping("/bulk")
+    public ResponseEntity<List<Race>> createRaces(@RequestBody List<Race> races) {
+        List<Race> createdRaces = raceService.createRaces(races);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRaces);
+    }
+
     // Endpoint para atualizar uma raça existente
     @PutMapping("/{id}")
-    public ResponseEntity<Race> updateRace(@PathVariable UUID id, @RequestBody Race raceDetails) {
-        Race updatedRace = raceService.updateRace(id, raceDetails);
+    public ResponseEntity<Race> updateRace(@PathVariable UUID id, @RequestBody Race race) {
+        Race updatedRace = raceService.updateRace(id, race);
         if (updatedRace == null) {
             return ResponseEntity.notFound().build();
         }

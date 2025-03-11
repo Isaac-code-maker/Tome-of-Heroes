@@ -4,6 +4,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -14,6 +16,7 @@ public class Spells {
 
     // Identificador único para cada feitiço
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_spells;
     
     // Nome do feitiço
