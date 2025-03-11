@@ -28,21 +28,25 @@ import java.util.Set;
 @RequestMapping("/auth") // Define o mapeamento base para os endpoints deste controlador
 public class AuthController {
 
-    @Autowired // Injeta automaticamente uma instância do UserRepository, que é usado para buscar e salvar usuários no banco de dados
+    @Autowired // Injeta automaticamente uma instância do UserRepository, que é usado para
+               // buscar e salvar usuários no banco de dados
     private UserRepository userRepository;
 
-    @Autowired // Injeta automaticamente uma instância do PasswordEncoder, que é usado para codificar senhas
+    @Autowired // Injeta automaticamente uma instância do PasswordEncoder, que é usado para
+               // codificar senhas
     private PasswordEncoder passwordEncoder;
 
-    @Autowired // Injeta automaticamente uma instância do AuthenticationManager, que é usado para autenticar usuários
+    @Autowired // Injeta automaticamente uma instância do AuthenticationManager, que é usado
+               // para autenticar usuários
     private AuthenticationManager authenticationManager;
 
-    @Autowired // Injeta automaticamente uma instância do JwtTokenProvider, que é usado para gerar tokens JWT
+    @Autowired // Injeta automaticamente uma instância do JwtTokenProvider, que é usado para
+               // gerar tokens JWT
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/register") // Define o mapeamento para o endpoint de registro de usuários
     public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequestDTO registerDTO,
-                                                        BindingResult result) {
+            BindingResult result) {
         if (result.hasErrors()) {
             // Retorna erros de validação em JSON
             Map<String, String> erros = new HashMap<>();
@@ -54,13 +58,15 @@ public class AuthController {
         // Verifica se o nome de usuário já existe
         Optional<User> existingUser = userRepository.findByUsername(registerDTO.getUsername());
         if (existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("erro", "Usuário já existe com este nome de usuário"));
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("erro", "Usuário já existe com este nome de usuário"));
         }
 
         // Verifica se pelo menos um papel (role) foi atribuído ao usuário
         Set<Role> roles = registerDTO.getRoles();
         if (roles == null || roles.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("erro", "Pelo menos um papel deve ser atribuído ao usuário"));
+            return ResponseEntity.badRequest()
+                    .body(Map.of("erro", "Pelo menos um papel deve ser atribuído ao usuário"));
         }
 
         // Cria um novo usuário e define seus atributos
@@ -88,9 +94,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getUsername(),
-                        loginDTO.getPassword()
-                )
-        );
+                        loginDTO.getPassword()));
 
         // Define o objeto de autenticação no contexto de segurança
         SecurityContextHolder.getContext().setAuthentication(authentication);
