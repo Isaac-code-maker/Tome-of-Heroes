@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -14,6 +16,7 @@ public class Classe {
 
     // Identificador único para cada classe
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_classe;
     
     // Nome da classe
@@ -34,8 +37,7 @@ public class Classe {
     }
 
     // Construtor com parâmetros
-    public Classe(UUID id_classe, String name, String description, String dado_de_vida) {
-        this.id_classe = id_classe;
+    public Classe(String name, String description, String dado_de_vida) {
         this.name = name;
         this.description = description;
         this.dado_de_vida = dado_de_vida;

@@ -2,6 +2,7 @@ package com.tomeofheroes.tome_of_heroes.models;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.tomeofheroes.tome_of_heroes.Enum.Role;
 
@@ -14,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Table(name = "users")
@@ -93,5 +96,12 @@ public class User {
 
     public void setCharacters(Set<Character> characters) {
         this.characters = characters;
+    }
+
+    // Método para obter as autoridades (roles) do usuário
+    public Set<GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+                .collect(Collectors.toSet());
     }
 }

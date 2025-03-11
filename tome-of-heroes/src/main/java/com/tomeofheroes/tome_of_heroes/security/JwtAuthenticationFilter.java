@@ -41,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (userDetails != null) {
                 // Cria um objeto de autenticação com os detalhes do usuário
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                // Define os detalhes da autenticação a partir da requisição
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 // Define o objeto de autenticação no contexto de segurança
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,5 +62,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
 }

@@ -35,7 +35,7 @@ public class ClasseController {
     }
 
     // Endpoint para criar uma nova classe
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Classe> createClasse(@RequestBody Classe classe) {
         Classe createdClasse = classeService.createClasse(classe);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClasse);

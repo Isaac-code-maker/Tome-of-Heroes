@@ -1,5 +1,17 @@
-{"properties": [{
-  "name": "hibernate.hbm2ddl.auto",
-  "type": "java.lang.String",
-  "description": "A description for 'hibernate.hbm2ddl.auto'"
-}]}
+{"properties": [
+  {
+    "name": "hibernate.hbm2ddl.auto",
+    "type": "java.lang.String",
+    "description": "A description for 'hibernate.hbm2ddl.auto'"
+  },
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret'"
+  },
+  {
+    "name": "jwt.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.expiration'"
+  }
+]}

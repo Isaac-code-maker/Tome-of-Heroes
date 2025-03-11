@@ -19,7 +19,6 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    @SuppressWarnings("deprecation")
     public String generateToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date now = new Date();
@@ -33,7 +32,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    @SuppressWarnings("deprecation")
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
@@ -43,7 +41,6 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    @SuppressWarnings("deprecation")
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
