@@ -2,29 +2,27 @@ package com.tomeofheroes.tome_of_heroes.models;
 
 import java.util.Set;
 import java.util.UUID;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "characters")
 public class Character {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    
+
     private String name;
     private int level;
     private int experience;
+
+    // Atributos movidos da classe Stats
+    private int strength;
+    private int dexterity;
+    private int constitution;
+    private int intelligence;
+    private int wisdom;
+    private int charisma;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -49,20 +47,22 @@ public class Character {
     )
     private Set<Spells> spells;
 
-    @OneToOne
-    @JoinColumn(name = "id_stats")
-    private Stats stats;
-
-    private String characterClass;
-
+    // Construtor padrão
     public Character() {
     }
 
-    public Character(UUID id, String name, int level, int experience) {
+    // Construtor com parâmetros
+    public Character(UUID id, String name, int level, int experience, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.experience = experience;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.constitution = constitution;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.charisma = charisma;
     }
 
     // Getters e setters para os campos
@@ -97,6 +97,54 @@ public class Character {
 
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getConstitution() {
+        return constitution;
+    }
+
+    public void setConstitution(int constitution) {
+        this.constitution = constitution;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getWisdom() {
+        return wisdom;
+    }
+
+    public void setWisdom(int wisdom) {
+        this.wisdom = wisdom;
+    }
+
+    public int getCharisma() {
+        return charisma;
+    }
+
+    public void setCharisma(int charisma) {
+        this.charisma = charisma;
     }
 
     public User getUser() {
@@ -137,21 +185,5 @@ public class Character {
 
     public void setSpells(Set<Spells> spells) {
         this.spells = spells;
-    }
-
-    public Stats getStats() {
-        return stats;
-    }
-
-    public void setStats(Stats stats) {
-        this.stats = stats;
-    }
-
-    public String getCharacterClass() {
-        return characterClass;
-    }
-
-    public void setCharacterClass(String characterClass) {
-        this.characterClass = characterClass;
     }
 }

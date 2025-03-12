@@ -2,7 +2,6 @@ package com.tomeofheroes.tome_of_heroes.services;
 
 import com.tomeofheroes.tome_of_heroes.models.Character;
 import com.tomeofheroes.tome_of_heroes.models.Race;
-import com.tomeofheroes.tome_of_heroes.models.Stats;
 import com.tomeofheroes.tome_of_heroes.repository.CharacterRepository;
 import com.tomeofheroes.tome_of_heroes.repository.RaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class CharacterService {
     public Character createCharacter(Character character) {
         // Distribuir os pontos de atributos com base na classe do personagem
         distributeStatsBasedOnClass(character);
-        // Ajustar os atributos de Stats com base na raça do personagem
+        // Ajustar os atributos com base na raça do personagem
         adjustStatsBasedOnRace(character);
         return characterRepository.save(character);
     }
@@ -43,11 +42,10 @@ public class CharacterService {
         }
         characterToUpdate.setName(character.getName());
         characterToUpdate.setRace(character.getRace());
-        characterToUpdate.setStats(character.getStats());
-        characterToUpdate.setCharacterClass(character.getCharacterClass());
+        characterToUpdate.setClasse(character.getClasse()); // Atualize a classe do personagem
         // Distribuir os pontos de atributos com base na classe do personagem
         distributeStatsBasedOnClass(characterToUpdate);
-        // Ajustar os atributos de Stats com base na raça do personagem
+        // Ajustar os atributos com base na raça do personagem
         adjustStatsBasedOnRace(characterToUpdate);
         return characterRepository.save(characterToUpdate);
     }
@@ -57,86 +55,86 @@ public class CharacterService {
     }
 
     private void distributeStatsBasedOnClass(Character character) {
-        Stats stats = character.getStats();
-        String characterClass = character.getCharacterClass().toLowerCase();
+        // Verifique se a classe do personagem não é nula
+        if (character.getClasse() != null) {
+            String characterClass = character.getClasse().getName().toLowerCase(); // Acesse o nome da classe
 
-        if (stats != null) {
             switch (characterClass) {
                 case "bárbaro":
                 case "guerreiro":
-                    stats.setStrength(15);
-                    stats.setConstitution(14);
-                    stats.setDexterity(13);
-                    stats.setWisdom(12);
-                    stats.setCharisma(10);
-                    stats.setIntelligence(8);
+                    character.setStrength(15);
+                    character.setConstitution(14);
+                    character.setDexterity(13);
+                    character.setWisdom(12);
+                    character.setCharisma(10);
+                    character.setIntelligence(8);
                     break;
                 case "paladino":
-                    stats.setStrength(15);
-                    stats.setCharisma(14);
-                    stats.setConstitution(13);
-                    stats.setWisdom(12);
-                    stats.setDexterity(10);
-                    stats.setIntelligence(8);
+                    character.setStrength(15);
+                    character.setCharisma(14);
+                    character.setConstitution(13);
+                    character.setWisdom(12);
+                    character.setDexterity(10);
+                    character.setIntelligence(8);
                     break;
                 case "ladino":
-                    stats.setDexterity(15);
-                    stats.setIntelligence(14);
-                    stats.setWisdom(13);
-                    stats.setConstitution(12);
-                    stats.setCharisma(10);
-                    stats.setStrength(8);
+                    character.setDexterity(15);
+                    character.setIntelligence(14);
+                    character.setWisdom(13);
+                    character.setConstitution(12);
+                    character.setCharisma(10);
+                    character.setStrength(8);
                     break;
                 case "monge":
-                    stats.setDexterity(15);
-                    stats.setWisdom(14);
-                    stats.setConstitution(13);
-                    stats.setIntelligence(12);
-                    stats.setCharisma(10);
-                    stats.setStrength(8);
+                    character.setDexterity(15);
+                    character.setWisdom(14);
+                    character.setConstitution(13);
+                    character.setIntelligence(12);
+                    character.setCharisma(10);
+                    character.setStrength(8);
                     break;
                 case "patrulheiro":
-                    stats.setDexterity(15);
-                    stats.setWisdom(14);
-                    stats.setConstitution(13);
-                    stats.setIntelligence(12);
-                    stats.setCharisma(10);
-                    stats.setStrength(8);
+                    character.setDexterity(15);
+                    character.setWisdom(14);
+                    character.setConstitution(13);
+                    character.setIntelligence(12);
+                    character.setCharisma(10);
+                    character.setStrength(8);
                     break;
                 case "mago":
                 case "artífice":
-                    stats.setIntelligence(15);
-                    stats.setConstitution(14);
-                    stats.setDexterity(13);
-                    stats.setWisdom(12);
-                    stats.setCharisma(10);
-                    stats.setStrength(8);
+                    character.setIntelligence(15);
+                    character.setConstitution(14);
+                    character.setDexterity(13);
+                    character.setWisdom(12);
+                    character.setCharisma(10);
+                    character.setStrength(8);
                     break;
                 case "clérigo":
-                    stats.setWisdom(15);
-                    stats.setConstitution(14);
-                    stats.setStrength(13);
-                    stats.setIntelligence(12);
-                    stats.setCharisma(10);
-                    stats.setDexterity(8);
+                    character.setWisdom(15);
+                    character.setConstitution(14);
+                    character.setStrength(13);
+                    character.setIntelligence(12);
+                    character.setCharisma(10);
+                    character.setDexterity(8);
                     break;
                 case "druida":
-                    stats.setWisdom(15);
-                    stats.setConstitution(14);
-                    stats.setDexterity(13);
-                    stats.setIntelligence(12);
-                    stats.setCharisma(10);
-                    stats.setStrength(8);
+                    character.setWisdom(15);
+                    character.setConstitution(14);
+                    character.setDexterity(13);
+                    character.setIntelligence(12);
+                    character.setCharisma(10);
+                    character.setStrength(8);
                     break;
                 case "feiticeiro":
                 case "bruxo":
                 case "bardo":
-                    stats.setCharisma(15);
-                    stats.setConstitution(14);
-                    stats.setDexterity(13);
-                    stats.setWisdom(12);
-                    stats.setIntelligence(10);
-                    stats.setStrength(8);
+                    character.setCharisma(15);
+                    character.setConstitution(14);
+                    character.setDexterity(13);
+                    character.setWisdom(12);
+                    character.setIntelligence(10);
+                    character.setStrength(8);
                     break;
                 default:
                     break;
@@ -146,45 +144,44 @@ public class CharacterService {
 
     private void adjustStatsBasedOnRace(Character character) {
         Race race = character.getRace();
-        Stats stats = character.getStats();
 
-        if (race != null && stats != null && race.getName() != null) {
+        if (race != null && race.getName() != null) {
             switch (race.getName().toLowerCase()) {
                 case "humano":
-                    stats.setStrength(stats.getStrength() + 1);
-                    stats.setDexterity(stats.getDexterity() + 1);
-                    stats.setConstitution(stats.getConstitution() + 1);
-                    stats.setIntelligence(stats.getIntelligence() + 1);
-                    stats.setWisdom(stats.getWisdom() + 1);
-                    stats.setCharisma(stats.getCharisma() + 1);
+                    character.setStrength(character.getStrength() + 1);
+                    character.setDexterity(character.getDexterity() + 1);
+                    character.setConstitution(character.getConstitution() + 1);
+                    character.setIntelligence(character.getIntelligence() + 1);
+                    character.setWisdom(character.getWisdom() + 1);
+                    character.setCharisma(character.getCharisma() + 1);
                     break;
                 case "anão":
-                    stats.setConstitution(stats.getConstitution() + 2);
+                    character.setConstitution(character.getConstitution() + 2);
                     break;
                 case "elfo":
-                    stats.setDexterity(stats.getDexterity() + 2);
+                    character.setDexterity(character.getDexterity() + 2);
                     break;
                 case "halfling":
-                    stats.setDexterity(stats.getDexterity() + 2);
+                    character.setDexterity(character.getDexterity() + 2);
                     break;
                 case "draconato":
-                    stats.setStrength(stats.getStrength() + 2);
-                    stats.setCharisma(stats.getCharisma() + 1);
+                    character.setStrength(character.getStrength() + 2);
+                    character.setCharisma(character.getCharisma() + 1);
                     break;
                 case "gnomo":
-                    stats.setIntelligence(stats.getIntelligence() + 2);
+                    character.setIntelligence(character.getIntelligence() + 2);
                     break;
                 case "meio-elfo":
-                    stats.setCharisma(stats.getCharisma() + 2);
+                    character.setCharisma(character.getCharisma() + 2);
                     // Adicione lógica para +1 em dois outros atributos
                     break;
                 case "meio-orc":
-                    stats.setStrength(stats.getStrength() + 2);
-                    stats.setConstitution(stats.getConstitution() + 1);
+                    character.setStrength(character.getStrength() + 2);
+                    character.setConstitution(character.getConstitution() + 1);
                     break;
                 case "tiefling":
-                    stats.setCharisma(stats.getCharisma() + 2);
-                    stats.setIntelligence(stats.getIntelligence() + 1);
+                    character.setCharisma(character.getCharisma() + 2);
+                    character.setIntelligence(character.getIntelligence() + 1);
                     break;
                 default:
                     break;
