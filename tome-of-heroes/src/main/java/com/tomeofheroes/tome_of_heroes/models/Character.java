@@ -2,6 +2,9 @@ package com.tomeofheroes.tome_of_heroes.models;
 
 import java.util.Set;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -30,6 +33,7 @@ public class Character {
 
     @ManyToOne
     @JoinColumn(name = "id_classe")
+    @JsonBackReference
     private Classe classe;
 
     @OneToMany(mappedBy = "character")

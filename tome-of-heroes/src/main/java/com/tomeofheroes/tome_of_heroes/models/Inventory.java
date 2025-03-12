@@ -37,6 +37,8 @@ public class Inventory {
     // Quantidade de cobre
     private int copper;
 
+    private int quantidade;
+
     // Relacionamento muitos-para-um com a classe Character
     @ManyToOne
     @JoinColumn(name = "character_id")
@@ -47,7 +49,7 @@ public class Inventory {
     }
 
     // Construtor com parâmetros
-    public Inventory(String name, String tipo, float peso, int gold, int silver, int copper, Character character) {
+    public Inventory(String name, String tipo, float peso, int gold, int silver, int copper, Character character, int quantidade) {
         this.name = name;
         this.tipo = tipo;
         this.peso = peso;
@@ -55,6 +57,8 @@ public class Inventory {
         this.silver = silver;
         this.copper = copper;
         this.character = character;
+        this.quantidade = quantidade;
+
     }
 
     // Getters e setters para os campos
@@ -122,4 +126,14 @@ public class Inventory {
     public void setCharacter(Character character) {
         this.character = character;
     }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    
 }

@@ -3,6 +3,9 @@ package com.tomeofheroes.tome_of_heroes.models;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,18 +21,19 @@ public class Classe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_classe;
-    
+
     // Nome da classe
     private String name;
-    
+
     // Descrição da classe
     private String description;
-    
+
     // Dado de vida da classe
     private String dado_de_vida;
 
     // Relacionamento um-para-muitos com a classe Character
     @OneToMany(mappedBy = "classe")
+    @JsonIgnore
     private List<Character> characters;
 
     // Construtor padrão

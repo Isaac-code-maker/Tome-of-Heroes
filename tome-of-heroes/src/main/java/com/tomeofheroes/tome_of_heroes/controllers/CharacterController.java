@@ -1,5 +1,6 @@
 package com.tomeofheroes.tome_of_heroes.controllers;
 
+import com.tomeofheroes.tome_of_heroes.dto.CharacterDTO; // Importe o DTO
 import com.tomeofheroes.tome_of_heroes.models.Character;
 import com.tomeofheroes.tome_of_heroes.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class CharacterController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Character> createCharacter(@RequestBody Character character) {
-        Character createdCharacter = characterService.createCharacter(character);
+    public ResponseEntity<CharacterDTO> createCharacter(@RequestBody Character character) {
+        CharacterDTO createdCharacter = characterService.createCharacter(character);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacter);
     }
 
