@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    image: tome_of_heroes
+    build:
+      context: .  
+      dockerfile: Dockerfile  
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tome_of_heroes
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: tome_of_heroes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
