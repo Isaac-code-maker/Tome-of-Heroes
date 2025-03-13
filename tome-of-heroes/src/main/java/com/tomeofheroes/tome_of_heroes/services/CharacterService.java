@@ -214,14 +214,6 @@ public class CharacterService {
         }
     }
 
-    // public CharacterDTO createCharacter(Character character) {
-    // // Salva o personagem no banco de dados
-    // Character savedCharacter = characterRepository.save(character);
-
-    // // Converte a entidade para DTO
-    // return convertToDTO(savedCharacter);
-    // }
-
     private CharacterDTO convertToDTO(Character character) {
         CharacterDTO dto = new CharacterDTO();
         dto.setId(character.getId());
