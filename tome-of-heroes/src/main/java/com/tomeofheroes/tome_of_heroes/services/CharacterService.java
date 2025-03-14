@@ -6,9 +6,14 @@ import com.tomeofheroes.tome_of_heroes.dto.RaceDTO;
 import com.tomeofheroes.tome_of_heroes.models.Character;
 import com.tomeofheroes.tome_of_heroes.models.Classe;
 import com.tomeofheroes.tome_of_heroes.models.Race;
+import com.tomeofheroes.tome_of_heroes.models.User;
 import com.tomeofheroes.tome_of_heroes.repository.CharacterRepository;
 import com.tomeofheroes.tome_of_heroes.repository.ClasseRepository;
 import com.tomeofheroes.tome_of_heroes.repository.RaceRepository;
+import com.tomeofheroes.tome_of_heroes.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class CharacterService {
 
     @Autowired
@@ -27,6 +33,9 @@ public class CharacterService {
     @Autowired
     private ClasseRepository classeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Character> getCharacters() {
         return characterRepository.findAll();
     }
@@ -36,25 +45,50 @@ public class CharacterService {
     }
 
     public CharacterDTO createCharacter(Character character) {
+        if (character == null) {
+            throw new IllegalArgumentException("Character cannot be null");
+        }
+    
+        // Valida se o usuário e o ID do usuário estão presentes
+        if (character.getUser() == null || character.getUser().getId() == null) {
+            throw new IllegalArgumentException("User and User ID must be provided");
+        }
+    
+        // Valida se a classe e o ID da classe estão presentes
+        if (character.getClasse() == null || character.getClasse().getId_classe() == null) {
+            throw new IllegalArgumentException("Class and Class ID must be provided");
+        }
+    
+        // Valida se a raça e o ID da raça estão presentes
+        if (character.getRace() == null || character.getRace().getId_raca() == null) {
+            throw new IllegalArgumentException("Race and Race ID must be provided");
+        }
+    
         // Carregue a classe completa do banco de dados
         UUID idClasse = character.getClasse().getId_classe();
         Classe classe = classeRepository.findById(idClasse)
                 .orElseThrow(() -> new IllegalArgumentException("Class not found with id: " + idClasse));
         character.setClasse(classe);
-
-        // Carregue a raça completa do banco de dados (se necessário)
+    
+        // Carregue a raça completa do banco de dados
         UUID idRace = character.getRace().getId_raca();
         Race race = raceRepository.findById(idRace)
                 .orElseThrow(() -> new IllegalArgumentException("Race not found with id: " + idRace));
         character.setRace(race);
-
+    
+        // Carregue o usuário completo do banco de dados
+        UUID userId = character.getUser().getId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        character.setUser(user);
+    
         // Distribua os pontos de atributos e ajuste com base na raça
         distributeStatsBasedOnClass(character);
         adjustStatsBasedOnRace(character);
-
+    
         // Salva o personagem no banco de dados
         Character savedCharacter = characterRepository.save(character);
-
+    
         // Converte a entidade salva para DTO
         return convertToDTO(savedCharacter);
     }
