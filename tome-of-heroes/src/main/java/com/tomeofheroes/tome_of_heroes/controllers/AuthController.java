@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController // Indica que esta classe é um controlador REST do Spring
 @RequestMapping("/auth") // Define o mapeamento base para os endpoints deste controlador
@@ -43,6 +46,9 @@ public class AuthController {
     @Autowired // Injeta automaticamente uma instância do JwtTokenProvider, que é usado para
                // gerar tokens JWT
     private JwtTokenProvider tokenProvider;
+
+   
+   
 
     @PostMapping("/register") // Define o mapeamento para o endpoint de registro de usuários
     public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequestDTO registerDTO,

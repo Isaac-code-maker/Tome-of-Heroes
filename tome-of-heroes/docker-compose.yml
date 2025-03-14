@@ -4,17 +4,24 @@ services:
   app:
     image: tome_of_heroes
     build:
-      context: .  
+      context: .
       dockerfile: Dockerfile  
     ports:
       - "8080:8080"
+    volumes:
+      - .:/app  # Sincroniza os arquivos do projeto dentro do container
+      - /app/target # Evita conflitos com a pasta de build do Maven
     depends_on:
       - db
     environment:
+      environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tome_of_heroes
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"  # Ativa o DevTools
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: "true"  # Ativa o Live Reload
+      SPRING_DEVTOOLS_RESTART_ADDITIONAL_PATHS: "/app/src"  # Caminho adicional para detectar mudanças no código
 
   db:
     image: postgres:13

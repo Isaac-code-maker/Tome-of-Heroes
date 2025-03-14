@@ -1,14 +1,14 @@
-# Usa uma imagem base do Java (ajuste a versão conforme necessário)
-FROM openjdk:17-jdk-alpine
+# Usa uma imagem base do Maven para compilar e rodar a aplicação no desenvolvimento
+FROM maven:3.8.5-openjdk-17
 
-# Define o diretório de trabalho dentro do contêiner
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o arquivo JAR da aplicação para o contêiner
-COPY target/tome-of-heroes-0.0.1-SNAPSHOT.jar app.jar
+# Copia o código-fonte para dentro do container
+COPY . .
 
-# Expõe a porta que a aplicação vai rodar 
+# Expõe a porta 8080
 EXPOSE 8080
 
-# Comando para rodar a aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Habilita o Live Reload e roda a aplicação diretamente no modo de desenvolvimento
+ENTRYPOINT ["mvn", "spring-boot:run"]
