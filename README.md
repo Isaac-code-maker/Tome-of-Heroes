@@ -14,6 +14,8 @@
 - **PostgreSQL** - Sistema de gerenciamento de banco de dados.
 - **Lombok** - Biblioteca para redução de código repetitivo.
 - **Spring Security** (futuro) - Para proteção de endpoints.
+- Docker - Containers
+  
 
 ## 📋 **Pré-requisitos**
 
@@ -31,27 +33,35 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    cd tome-of-heroes
    ```
 
-2. Configure o banco de dados PostgreSQL:
-   - Crie um banco de dados chamado `rpgmanager`.
-   - Altere as configurações de acesso no arquivo `src/main/resources/application.properties`:
-
    ```properties
+      # Configuração do banco de dados PostgreSQL
    spring.datasource.url=jdbc:postgresql://localhost:5432/tome-of-heroes
    spring.datasource.username=postgres
    spring.datasource.password=root
    spring.datasource.driver-class-name=org.postgresql.Driver
 
+   # Configuração do JPA/Hibernate
    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-   spring.jpa.hibernate.ddl-auto=create
+   spring.jpa.hibernate.ddl-auto=update
    spring.jpa.show-sql=true
    spring.jpa.properties.hibernate.format_sql=true
-   spring.jpa.properties.hibernate.ejb.entitymanager_factory_name=com.tomeofheroes.tome_of_heroes.models
+
+   # Configurações do JWT
+   jwt.secret=your_jwt_secret_key
+   jwt.expiration=86400000
+
+   spring.devtools.livereload.enabled=true
+   spring.devtools.restart.enabled=true
+   spring.devtools.restart.exclude=static/**,public/**,resources/**
+   spring.devtools.restart.additional-paths=/app/src
    ```
 
 3. Compile e rode a aplicação:
 
    ```bash
    mvn spring-boot:run
+
+   docker compose up --build
    ```
 
 4. O projeto estará rodando em [http://localhost:8080](http://localhost:8080).
@@ -66,7 +76,7 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 
 ## 🛠️ **Funcionalidades Futuras**
 
-- **Autenticação e Autorização** com Spring Security.
+- **Autenticação e Autorização** com Spring Security. (FEITO)
 - **Validação de dados** nos endpoints (usando annotations do JSR-303).
 - **Documentação da API** com Swagger UI (futuramente).
 
