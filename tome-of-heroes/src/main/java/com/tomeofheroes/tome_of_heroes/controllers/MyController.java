@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class MyController {
     
-    // @GetMapping("/test")
-    // public String testEndpoint() {
-    //     return "Hello, Docker Live Reload!";
-    // }
+    @GetMapping("/test")
+    public String testEndpoint() {
+        return "Hello, Docker Live Reload!";
+    }
 }
 
