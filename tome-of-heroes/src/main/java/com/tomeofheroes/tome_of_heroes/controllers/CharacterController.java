@@ -3,6 +3,9 @@ package com.tomeofheroes.tome_of_heroes.controllers;
 import com.tomeofheroes.tome_of_heroes.dto.CharacterDTO; // Importe o DTO
 import com.tomeofheroes.tome_of_heroes.models.Character;
 import com.tomeofheroes.tome_of_heroes.services.CharacterService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@Slf4j
 @RequestMapping("/characters")
 public class CharacterController {
 
@@ -35,6 +39,9 @@ public class CharacterController {
 
     @PostMapping("/create")
     public ResponseEntity<CharacterDTO> createCharacter(@RequestBody Character character) {
+        log.info("Received character: {}", character);
+        log.info("Character class: {}", character.getClasse());
+
         CharacterDTO createdCharacter = characterService.createCharacter(character);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCharacter);
     }
