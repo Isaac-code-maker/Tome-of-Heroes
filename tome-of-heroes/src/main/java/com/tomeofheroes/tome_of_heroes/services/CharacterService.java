@@ -85,6 +85,9 @@ public class CharacterService {
         // Distribua os pontos de atributos e ajuste com base na raça
         distributeStatsBasedOnClass(character);
         adjustStatsBasedOnRace(character);
+
+        // Atualize as perícias com base nos modificadores dos atributos
+        updateSkillsBasedOnAttributes(character);
     
         // Salva o personagem no banco de dados
         Character savedCharacter = characterRepository.save(character);
@@ -105,6 +108,8 @@ public class CharacterService {
         distributeStatsBasedOnClass(characterToUpdate);
         // Ajustar os atributos com base na raça do personagem
         adjustStatsBasedOnRace(characterToUpdate);
+        // Atualize as perícias com base nos modificadores dos atributos
+        updateSkillsBasedOnAttributes(characterToUpdate);
         return characterRepository.save(characterToUpdate);
     }
 
@@ -246,6 +251,39 @@ public class CharacterService {
                     break;
             }
         }
+    }
+
+    private void updateSkillsBasedOnAttributes(Character character) {
+        // Calcula os modificadores dos atributos
+        int strengthModifier = calculateModifier(character.getStrength());
+        int dexterityModifier = calculateModifier(character.getDexterity());
+        int intelligenceModifier = calculateModifier(character.getIntelligence());
+        int wisdomModifier = calculateModifier(character.getWisdom());
+        int charismaModifier = calculateModifier(character.getCharisma());
+
+        // Atualiza as perícias com base nos modificadores dos atributos
+        character.setAthletics(strengthModifier); // Atletismo (Força)
+        character.setAcrobatics(dexterityModifier); // Acrobacia (Destreza)
+        character.setSleightOfHand(dexterityModifier); // Prestidigitação (Destreza)
+        character.setStealth(dexterityModifier); // Furtividade (Destreza)
+        character.setArcana(intelligenceModifier); // Arcanismo (Inteligência)
+        character.setHistory(intelligenceModifier); // História (Inteligência)
+        character.setInvestigation(intelligenceModifier); // Investigação (Inteligência)
+        character.setNature(intelligenceModifier); // Natureza (Inteligência)
+        character.setReligion(intelligenceModifier); // Religião (Inteligência)
+        character.setAnimalHandling(wisdomModifier); // Adestramento (Sabedoria)
+        character.setInsight(wisdomModifier); // Intuição (Sabedoria)
+        character.setMedicine(wisdomModifier); // Medicina (Sabedoria)
+        character.setPerception(wisdomModifier); // Percepção (Sabedoria)
+        character.setSurvival(wisdomModifier); // Sobrevivência (Sabedoria)
+        character.setDeception(charismaModifier); // Enganação (Carisma)
+        character.setIntimidation(charismaModifier); // Intimidação (Carisma)
+        character.setPerformance(charismaModifier); // Atuação (Carisma)
+        character.setPersuasion(charismaModifier); // Persuasão (Carisma)
+    }
+
+    private int calculateModifier(int attributeValue) {
+        return (attributeValue - 10) / 2;
     }
 
     private CharacterDTO convertToDTO(Character character) {
