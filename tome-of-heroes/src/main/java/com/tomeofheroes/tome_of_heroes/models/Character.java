@@ -27,6 +27,9 @@ public class Character {
     private int wisdom;
     private int charisma;
 
+    //Sessão das perícias...
+    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
