@@ -13,10 +13,8 @@ import com.tomeofheroes.tome_of_heroes.repository.RaceRepository;
 import com.tomeofheroes.tome_of_heroes.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -45,76 +43,70 @@ public class CharacterService {
     }
 
     public CharacterDTO createCharacter(Character character) {
-        if (character == null) {
-            throw new IllegalArgumentException("Character cannot be null");
-        }
-    
-        // Valida se o usuário e o ID do usuário estão presentes
-        if (character.getUser() == null || character.getUser().getId() == null) {
-            throw new IllegalArgumentException("User and User ID must be provided");
-        }
-    
-        // Valida se a classe e o ID da classe estão presentes
-        if (character.getClasse() == null || character.getClasse().getId_classe() == null) {
-            throw new IllegalArgumentException("Class and Class ID must be provided");
-        }
-    
-        // Valida se a raça e o ID da raça estão presentes
-        if (character.getRace() == null || character.getRace().getId_raca() == null) {
-            throw new IllegalArgumentException("Race and Race ID must be provided");
-        }
-    
-        // Carregue a classe completa do banco de dados
-        UUID idClasse = character.getClasse().getId_classe();
-        Classe classe = classeRepository.findById(idClasse)
-                .orElseThrow(() -> new IllegalArgumentException("Class not found with id: " + idClasse));
-        character.setClasse(classe);
-    
-        // Carregue a raça completa do banco de dados
-        UUID idRace = character.getRace().getId_raca();
-        Race race = raceRepository.findById(idRace)
-                .orElseThrow(() -> new IllegalArgumentException("Race not found with id: " + idRace));
-        character.setRace(race);
-    
-        // Carregue o usuário completo do banco de dados
-        UUID userId = character.getUser().getId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        character.setUser(user);
-    
-        // Distribua os pontos de atributos e ajuste com base na raça
+        validateCharacterData(character);
+        
+        character.setClasse(loadClasse(character.getClasse().getId_classe()));
+        character.setRace(loadRace(character.getRace().getId_raca()));
+        character.setUser(loadUser(character.getUser().getId()));
+
         distributeStatsBasedOnClass(character);
         adjustStatsBasedOnRace(character);
-
-        // Atualize as perícias com base nos modificadores dos atributos
         updateSkillsBasedOnAttributes(character);
-    
-        // Salva o personagem no banco de dados
+        
         Character savedCharacter = characterRepository.save(character);
-    
-        // Converte a entidade salva para DTO
         return convertToDTO(savedCharacter);
     }
 
     public Character updateCharacter(UUID id, Character character) {
-        Character characterToUpdate = characterRepository.findById(id).orElse(null);
-        if (characterToUpdate == null) {
-            return null;
-        }
-        characterToUpdate.setName(character.getName());
-        characterToUpdate.setRace(character.getRace());
-        characterToUpdate.setClasse(character.getClasse()); // Atualize a classe do personagem
-        // Distribuir os pontos de atributos com base na classe do personagem
+        Character characterToUpdate = characterRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Character not found"));
+            
+        updateCharacterData(characterToUpdate, character);
         distributeStatsBasedOnClass(characterToUpdate);
-        // Ajustar os atributos com base na raça do personagem
         adjustStatsBasedOnRace(characterToUpdate);
-        // Atualize as perícias com base nos modificadores dos atributos
         updateSkillsBasedOnAttributes(characterToUpdate);
+        
         return characterRepository.save(characterToUpdate);
     }
 
     public void deleteCharacter(UUID id) {
         characterRepository.deleteById(id);
+    }
+
+    private void validateCharacterData(Character character) {
+        if (character == null) {
+            throw new IllegalArgumentException("Character cannot be null");
+        }
+        if (character.getUser() == null || character.getUser().getId() == null) {
+            throw new IllegalArgumentException("User and User ID must be provided");
+        }
+        if (character.getClasse() == null || character.getClasse().getId_classe() == null) {
+            throw new IllegalArgumentException("Class and Class ID must be provided");
+        }
+        if (character.getRace() == null || character.getRace().getId_raca() == null) {
+            throw new IllegalArgumentException("Race and Race ID must be provided");
+        }
+    }
+
+    private Classe loadClasse(UUID id) {
+        return classeRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Class not found with id: " + id));
+    }
+
+    private Race loadRace(UUID id) {
+        return raceRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Race not found with id: " + id));
+    }
+
+    private User loadUser(UUID id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    }
+
+    private void updateCharacterData(Character characterToUpdate, Character newData) {
+        characterToUpdate.setName(newData.getName());
+        characterToUpdate.setRace(newData.getRace());
+        characterToUpdate.setClasse(newData.getClasse());
     }
 
     private void distributeStatsBasedOnClass(Character character) {
@@ -127,159 +119,132 @@ public class CharacterService {
         switch (characterClass) {
             case "bárbaro":
             case "guerreiro":
-                character.setStrength(15);
-                character.setConstitution(14);
-                character.setDexterity(13);
-                character.setWisdom(12);
-                character.setCharisma(10);
-                character.setIntelligence(8);
+                setStats(character, 15, 13, 14, 8, 12, 10);
                 break;
             case "paladino":
-                character.setStrength(15);
-                character.setCharisma(14);
-                character.setConstitution(13);
-                character.setWisdom(12);
-                character.setDexterity(10);
-                character.setIntelligence(8);
+                setStats(character, 15, 10, 13, 8, 12, 14);
                 break;
             case "ladino":
-                character.setDexterity(15); // Corrigido aqui
-                character.setIntelligence(14);
-                character.setWisdom(13);
-                character.setConstitution(12);
-                character.setCharisma(10);
-                character.setStrength(8);
+                setStats(character, 8, 15, 12, 14, 13, 10);
                 break;
             case "monge":
-                character.setDexterity(15);
-                character.setWisdom(14);
-                character.setConstitution(13);
-                character.setIntelligence(12);
-                character.setCharisma(10);
-                character.setStrength(8);
-                break;
             case "patrulheiro":
-                character.setDexterity(15);
-                character.setWisdom(14);
-                character.setConstitution(13);
-                character.setIntelligence(12);
-                character.setCharisma(10);
-                character.setStrength(8);
+                setStats(character, 8, 15, 13, 12, 14, 10);
                 break;
             case "mago":
             case "artífice":
-                character.setIntelligence(15);
-                character.setConstitution(14);
-                character.setDexterity(13);
-                character.setWisdom(12);
-                character.setCharisma(10);
-                character.setStrength(8);
+                setStats(character, 8, 13, 14, 15, 12, 10);
                 break;
             case "clérigo":
-                character.setWisdom(15);
-                character.setConstitution(14);
-                character.setStrength(13);
-                character.setIntelligence(12);
-                character.setCharisma(10);
-                character.setDexterity(8);
+                setStats(character, 13, 8, 14, 12, 15, 10);
                 break;
             case "druida":
-                character.setWisdom(15);
-                character.setConstitution(14);
-                character.setDexterity(13);
-                character.setIntelligence(12);
-                character.setCharisma(10);
-                character.setStrength(8);
+                setStats(character, 8, 13, 14, 12, 15, 10);
                 break;
             case "feiticeiro":
             case "bruxo":
             case "bardo":
-                character.setCharisma(15);
-                character.setConstitution(14);
-                character.setDexterity(13);
-                character.setWisdom(12);
-                character.setIntelligence(10);
-                character.setStrength(8);
+                setStats(character, 8, 13, 14, 10, 12, 15);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid class: " + characterClass);
         }
     }
 
-    private void adjustStatsBasedOnRace(Character character) {
-        Race race = character.getRace();
+    private void setStats(Character character, int str, int dex, int con, int intel, int wis, int cha) {
+        character.setStrength(str);
+        character.setDexterity(dex);
+        character.setConstitution(con);
+        character.setIntelligence(intel);
+        character.setWisdom(wis);
+        character.setCharisma(cha);
+    }
 
-        if (race != null && race.getName() != null) {
-            switch (race.getName().toLowerCase()) {
-                case "humano":
-                    character.setStrength(character.getStrength() + 1);
-                    character.setDexterity(character.getDexterity() + 1);
-                    character.setConstitution(character.getConstitution() + 1);
-                    character.setIntelligence(character.getIntelligence() + 1);
-                    character.setWisdom(character.getWisdom() + 1);
-                    character.setCharisma(character.getCharisma() + 1);
-                    break;
-                case "anão":
-                    character.setConstitution(character.getConstitution() + 2);
-                    break;
-                case "elfo":
-                    character.setDexterity(character.getDexterity() + 2);
-                    break;
-                case "halfling":
-                    character.setDexterity(character.getDexterity() + 2);
-                    break;
-                case "draconato":
-                    character.setStrength(character.getStrength() + 2);
-                    character.setCharisma(character.getCharisma() + 1);
-                    break;
-                case "gnomo":
-                    character.setIntelligence(character.getIntelligence() + 2);
-                    break;
-                case "meio-elfo":
-                    character.setCharisma(character.getCharisma() + 2);
-                    // Adicione lógica para +1 em dois outros atributos
-                    break;
-                case "meio-orc":
-                    character.setStrength(character.getStrength() + 2);
-                    character.setConstitution(character.getConstitution() + 1);
-                    break;
-                case "tiefling":
-                    character.setCharisma(character.getCharisma() + 2);
-                    character.setIntelligence(character.getIntelligence() + 1);
-                    break;
-                default:
-                    break;
-            }
+    private void adjustStatsBasedOnRace(Character character) {
+        if (character.getRace() == null || character.getRace().getName() == null) return;
+
+        switch (character.getRace().getName().toLowerCase()) {
+            case "humano":
+                adjustAllStats(character, 1);
+                break;
+            case "anão":
+                character.setConstitution(character.getConstitution() + 2);
+                break;
+            case "elfo":
+            case "halfling":
+                character.setDexterity(character.getDexterity() + 2);
+                break;
+            case "draconato":
+                character.setStrength(character.getStrength() + 2);
+                character.setCharisma(character.getCharisma() + 1);
+                break;
+            case "gnomo":
+                character.setIntelligence(character.getIntelligence() + 2);
+                break;
+            case "meio-elfo":
+                character.setCharisma(character.getCharisma() + 2);
+                break;
+            case "meio-orc":
+                character.setStrength(character.getStrength() + 2);
+                character.setConstitution(character.getConstitution() + 1);
+                break;
+            case "tiefling":
+                character.setCharisma(character.getCharisma() + 2);
+                character.setIntelligence(character.getIntelligence() + 1);
+                break;
         }
     }
 
-    private void updateSkillsBasedOnAttributes(Character character) {
-        // Calcula os modificadores dos atributos
-        int strengthModifier = calculateModifier(character.getStrength());
-        int dexterityModifier = calculateModifier(character.getDexterity());
-        int intelligenceModifier = calculateModifier(character.getIntelligence());
-        int wisdomModifier = calculateModifier(character.getWisdom());
-        int charismaModifier = calculateModifier(character.getCharisma());
+    private void adjustAllStats(Character character, int value) {
+        character.setStrength(character.getStrength() + value);
+        character.setDexterity(character.getDexterity() + value);
+        character.setConstitution(character.getConstitution() + value);
+        character.setIntelligence(character.getIntelligence() + value);
+        character.setWisdom(character.getWisdom() + value);
+        character.setCharisma(character.getCharisma() + value);
+    }
 
-        // Atualiza as perícias com base nos modificadores dos atributos
-        character.setAthletics(strengthModifier); // Atletismo (Força)
-        character.setAcrobatics(dexterityModifier); // Acrobacia (Destreza)
-        character.setSleightOfHand(dexterityModifier); // Prestidigitação (Destreza)
-        character.setStealth(dexterityModifier); // Furtividade (Destreza)
-        character.setArcana(intelligenceModifier); // Arcanismo (Inteligência)
-        character.setHistory(intelligenceModifier); // História (Inteligência)
-        character.setInvestigation(intelligenceModifier); // Investigação (Inteligência)
-        character.setNature(intelligenceModifier); // Natureza (Inteligência)
-        character.setReligion(intelligenceModifier); // Religião (Inteligência)
-        character.setAnimalHandling(wisdomModifier); // Adestramento (Sabedoria)
-        character.setInsight(wisdomModifier); // Intuição (Sabedoria)
-        character.setMedicine(wisdomModifier); // Medicina (Sabedoria)
-        character.setPerception(wisdomModifier); // Percepção (Sabedoria)
-        character.setSurvival(wisdomModifier); // Sobrevivência (Sabedoria)
-        character.setDeception(charismaModifier); // Enganação (Carisma)
-        character.setIntimidation(charismaModifier); // Intimidação (Carisma)
-        character.setPerformance(charismaModifier); // Atuação (Carisma)
-        character.setPersuasion(charismaModifier); // Persuasão (Carisma)
+    private void updateSkillsBasedOnAttributes(Character character) {
+        int strMod = calculateModifier(character.getStrength());
+        int dexMod = calculateModifier(character.getDexterity());
+        int intMod = calculateModifier(character.getIntelligence());
+        int wisMod = calculateModifier(character.getWisdom());
+        int chaMod = calculateModifier(character.getCharisma());
+
+        character.setAthletics(strMod);
+        setDexteritySkills(character, dexMod);
+        setIntelligenceSkills(character, intMod);
+        setWisdomSkills(character, wisMod);
+        setCharismaSkills(character, chaMod);
+    }
+
+    private void setDexteritySkills(Character character, int mod) {
+        character.setAcrobatics(mod);
+        character.setSleightOfHand(mod);
+        character.setStealth(mod);
+    }
+
+    private void setIntelligenceSkills(Character character, int mod) {
+        character.setArcana(mod);
+        character.setHistory(mod);
+        character.setInvestigation(mod);
+        character.setNature(mod);
+        character.setReligion(mod);
+    }
+
+    private void setWisdomSkills(Character character, int mod) {
+        character.setAnimalHandling(mod);
+        character.setInsight(mod);
+        character.setMedicine(mod);
+        character.setPerception(mod);
+        character.setSurvival(mod);
+    }
+
+    private void setCharismaSkills(Character character, int mod) {
+        character.setDeception(mod);
+        character.setIntimidation(mod);
+        character.setPerformance(mod);
+        character.setPersuasion(mod);
     }
 
     private int calculateModifier(int attributeValue) {
@@ -299,7 +264,6 @@ public class CharacterService {
         dto.setWisdom(character.getWisdom());
         dto.setCharisma(character.getCharisma());
 
-        // Converte a classe para ClasseDTO
         ClasseDTO classeDTO = new ClasseDTO();
         classeDTO.setId_classe(character.getClasse().getId_classe());
         classeDTO.setName(character.getClasse().getName());
@@ -307,7 +271,6 @@ public class CharacterService {
         classeDTO.setDado_de_vida(character.getClasse().getDado_de_vida());
         dto.setClasse(classeDTO);
 
-        // Converte a raça para RaceDTO
         RaceDTO raceDTO = new RaceDTO();
         raceDTO.setId_raca(character.getRace().getId_raca());
         raceDTO.setName(character.getRace().getName());
