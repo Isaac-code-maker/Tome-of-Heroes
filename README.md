@@ -1,5 +1,3 @@
----
-
 # 📖 **Tome of Heroes**
 
 **Tome of Heroes** é uma aplicação para o **gerenciamento de fichas de personagens de RPG**. O sistema permite aos jogadores e mestres de jogo criar, editar, listar e excluir personagens, armazenando informações essenciais como **atributos**, **raça**, **classe**, **magias** e **inventário**.
@@ -111,5 +109,3 @@ O frontend do projeto foi desenvolvido utilizando:
 ## 👨‍💻 **Desenvolvedor**
 
 - **Isaac Aires** - [LinkedIn](https://www.linkedin.com/in/isaac-aires-4601a728b/)
-
----
