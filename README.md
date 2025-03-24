@@ -1,5 +1,3 @@
-
-
 ---
 
 # 📖 **Tome of Heroes**
@@ -33,8 +31,10 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
    cd tome-of-heroes
    ```
 
+2. Configure o arquivo `application.properties` com as seguintes configurações:
+
    ```properties
-      # Configuração do banco de dados PostgreSQL
+   # Configuração do banco de dados PostgreSQL
    spring.datasource.url=jdbc:postgresql://localhost:5432/tome-of-heroes
    spring.datasource.username=postgres
    spring.datasource.password=root
@@ -74,11 +74,39 @@ Antes de rodar o projeto, você precisará ter o seguinte instalado:
 - **PUT /personagem/{id}** - Atualiza um personagem existente.
 - **DELETE /personagem/{id}** - Exclui um personagem.
 
+## 🎨 **Frontend**
+
+O frontend do projeto foi desenvolvido utilizando:
+
+- **Angular** - Framework JavaScript para construção de aplicações web
+- **TypeScript** - Superset tipado do JavaScript
+- **Angular Material** - Biblioteca de componentes UI
+- **RxJS** - Biblioteca para programação reativa
+
+### Como Rodar o Frontend
+
+1. Entre na pasta do frontend:
+   ```bash
+   cd frontend
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Inicie o servidor de desenvolvimento:
+   ```bash
+   ng serve
+   ```
+
+4. O frontend estará disponível em [http://localhost:4200](http://localhost:4200)
+
 ## 🛠️ **Funcionalidades Futuras**
 
 - **Autenticação e Autorização** com Spring Security. (FEITO)
 - **Validação de dados** nos endpoints (usando annotations do JSR-303).
-- **Documentação da API** com Swagger UI (futuramente).
+
 
 ## 👨‍💻 **Desenvolvedor**
 
