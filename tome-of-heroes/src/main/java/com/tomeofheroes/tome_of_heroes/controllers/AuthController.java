@@ -89,6 +89,7 @@ public class AuthController {
         return ResponseEntity.ok(successResponse);
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/login") // Define o mapeamento para o endpoint de login de usuários
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginDTO, BindingResult result) {
         if (result.hasErrors()) {

@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface InventoryRepository extends JpaRepository<Inventory, UUID> {
 
     // Método para encontrar um item pelo ID
+    @SuppressWarnings("null")
     Optional<Inventory> findById(UUID id);
 
     // Método para encontrar itens de um personagem específico
