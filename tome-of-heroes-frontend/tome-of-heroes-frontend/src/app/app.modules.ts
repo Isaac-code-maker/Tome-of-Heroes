@@ -4,17 +4,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ApiService } from './services/api.service';
+import { ApiService } from './services/api/api.service';
 import { HomeComponent } from './pages/home/home.component';
 import { CharacterListComponent } from './pages/character-list/character-list.component';
 import { CharacterCreateComponent } from './pages/character-create/character-create.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
+  declarations: [    
     HomeComponent,
     CharacterListComponent,
-    CharacterCreateComponent
+    CharacterCreateComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
